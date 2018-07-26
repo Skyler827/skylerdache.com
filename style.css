@@ -12,33 +12,34 @@
     display: inline-block;
 }
 .main-content {
-    height: 100%;
+    height: 95%;
+    width: 900px;
     margin-left: 200px;
     padding: 15px;
 
-    width: 800px;
     overflow: auto;
     display: inline-block;
+    position: absolute;
 }
-.main-content p {
-    text-indent: 30px;
-    margin: 10px 0;
-    text-align: justify;
-}
-.main-content img {
-    float: right;
-    width: 192px;
-    border: 2px solid black;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-section {
-    padding: 8px;
-    margin: 10px 0;
-}
-section.main {
-    background-color: beige;
-}
-section.project {
-    background-color: lightskyblue;
-}
+    .main-content p {
+        text-indent: 30px;
+        margin: 10px 0;
+        text-align: justify;
+    }
+    .main-content img {
+        float: right;
+        width: 192px;
+        border: 2px solid black;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .main-content section {
+        padding: 8px;
+        margin: 10px 0;
+    }
+    .main-content section.main {
+        background-color: beige;
+    }
+    .main-content section.project {
+        background-color: lightskyblue;
+    }
