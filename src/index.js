@@ -16,4 +16,6 @@ function component() {
     return element;
 }
 
-document.getElementById("links-section").appendChild(component());
+try {
+    document.getElementById("links-section").appendChild(component());
+} catch (e) {}
