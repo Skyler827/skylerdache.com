@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>The Personal Website of Skyler Daché</title>
-
-<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <script src="./print.bundle.js"></script>
 </head>
 <body>
     <div class="left-sidebar">
@@ -17,7 +16,7 @@
     <div class="main-content">
         <img src="https://www.redditstatic.com/avatars/avatar_default_03_24A0ED.png">
         <h1>Skyler Daché</h1>
-        <h3>Developer in training, never ending student</h3>
+        <h3>Full Stack Web Developer</h3>
         <p>I am a developer in training working my way through Coding Dojo's 
             14 week bootcamp.
         </p>
@@ -36,12 +35,26 @@
             systems, configuration management systems, and monitioring solutions.
         </p>
         <section class="main">
-            <h2>Planned Projects</h2>
+            <h2>Projects</h2>
+            <section class="project">
+                <h3>Food Ordering System</h3>
+                <p>
+                    This project recreates the food ordering point of sale system at the
+                    restaraunt I have worked at.  It allows servers to view and enter orders
+                    for food and drinks, keeps track of what has been ordered and the supply of
+                    ingredients required to make items, it displays to line cooks what ingredients
+                    need to be combined to make ordered food, and allows managers to void/comp orders,
+                    track sales, profits, losses, and order/payment activity.
+                </p>
+                <p>
+                    The Food Ordering System is built with all Javascript/Typescript, 
+                </p>
+            </section>
             <section class="project">
                 <h3>League of Legends Calculator</h3>
-                <p>I hope to develop a simple calculator for predicting the outcome of 
-                    combat in the online multiplayer video game <span>League of 
-                    Legends</span>.        
+                <p>
+                    I hope to develop a simple calculator for predicting the outcome of 
+                    combat in the online multiplayer video game League of Legends.        
                 </p>
                 <p>
                     <span>League</span> is a complex game where
@@ -66,34 +79,16 @@
                 </p>
             </section>
             <section class="project">
-                <h3>Maryland Lottery Calculator</h3>
+                <h3>Pong App</h3>
                 <p>
-                    I think Lotteries are dumb.  I think (along with gambling) that
-                    they are a tax on the poor and a symptom of poor numeracy.  I think
-                    there should be more tools onlie for seeing how much of a bad investment
-                    Lotteries are.
+                    The Pong app is a simple multiplayer game that allows people to register, log in,
+                    create/join games, and play multiplayer pong with their arrow keys against another
+                    player.
                 </p>
                 <p>
-                    So I would like to develop a tool that analyzes the various different
-                    kinds of tokens, tickets, bets, and points involved in the Maryland
-                    Lottery, chosen because a friend of mine seems to think that by picking
-                    the right bets and doing the right math, he could actually make money
-                    playing the lottery.  Crazy, I know.
+                    This project uses A Java server, using the spring web framework, WebSocets
+                    for real time communication,
                 </p>
-                <p>
-                    But I want the application to
-                    act like it is answering his question.  It will be specifically about
-                    analyzing and evaluating the value of different kinds of tickets and bets.
-                    So it will be for him, but also for anyone who has been tricked into
-                    thinking that the Lottery works for them. 
-                </p>
-            </section>
-            <section class="project">
-                <h3>Basketball Fantasy Football analyzer</h3>
-                <p>Just for fun, my classmate and reportedly pretty cool guy Allen said 
-                    that it would be pretty cool to write a program to procedurally 
-                    estimate optimal basketball draft picks.  I said sure.  So I
-                    guess I'm making a pro basketball draft picking tool.</p>
             </section>
         </section>
         <section class="main">
@@ -103,11 +98,12 @@
         <section class="main">
             <h2>Resumé</h2>
         </section>
-        <section class="main">
+        <section class="main" id="links-section">
             <h2>Links</h2>
-            <p>Hello world</p>
-            <p>wjenvvewjinrijvni</p>
+            <p>Github</p>
+            <p>LinkedIn</p>
         </section>
     </div>
+    <script src="./app.bundle.js"></script>
 </body>
 </html>

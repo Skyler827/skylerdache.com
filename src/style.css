@@ -12,11 +12,12 @@
     display: inline-block;
 }
 .main-content {
+    font-size: 1.2em;
     height: 95%;
-    width: 900px;
+    /* width: auto; */
     margin-left: 200px;
     padding: 15px;
-
+    padding-right: 300px;
     overflow: auto;
     display: inline-block;
     position: absolute;

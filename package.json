@@ -1,0 +1,27 @@
+{
+  "name": "skylerdache.com",
+  "version": "1.0.0",
+  "description": "The Personal Website of Skyler Daché",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skyler827/skylerdache.com.git"
+  },
+  "author": "Skyler Daché",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Skyler827/skylerdache.com/issues"
+  },
+  "homepage": "https://github.com/Skyler827/skylerdache.com#readme",
+  "devDependencies": {
+    "css-loader": "^2.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  },
+  "dependencies": {}
+}
