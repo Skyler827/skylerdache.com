@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>The Personal Website of Skyler Daché</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+</head>
+<body>
+    <%= htmlWebpackPlugin.options.sitemap %>
+    <div class="main-content">
+        <img src="https://www.redditstatic.com/avatars/avatar_default_03_24A0ED.png">
+        <p>I am a developer in training working my way through Coding Dojo's 
+            14 week bootcamp.
+        </p>
+        <p>I hope to graduate and work in the Boston Area as a full stack web developer,
+            with an emphasis on Linux servers, operations, and reliability.
+        </p>
+        <p>When I'm done with the program, I hope to practice working with Python
+            (including tehnologies such as Flask and Django), the MEAN stack 
+            (including Nodejs, Mongo db, the Express framework, Angular.js) and
+            Java technologies, including the Spring framework, the play framework,
+            the various Java package managers and the advantages and disadvantages of 
+            each.
+        </p>
+        <p>I also plan to sharpen my operations skills, and practice deploying 
+            the above aplications using various build tools, continious integration
+            systems, configuration management systems, and monitioring solutions.
+        </p>
+        <section class="main">
+            <h2>Projects</h2>
+            <section class="project">
+                <h3>Food Ordering System</h3>
+                <p>
+                    This project recreates the food ordering point of sale system at the
+                    restaraunt I have worked at.  It allows servers to view and enter orders
+                    for food and drinks, keeps track of what has been ordered and the supply of
+                    ingredients required to make items, it displays to line cooks what ingredients
+                    need to be combined to make ordered food, and allows managers to void/comp orders,
+                    track sales, profits, losses, and order/payment activity.
+                </p>
+                <p>
+                    The Food Ordering System is built with all Javascript/Typescript, 
+                </p>
+            </section>
+            <section class="project">
+                <h3>League of Legends Calculator</h3>
+                <p>
+                    I hope to develop a simple calculator for predicting the outcome of 
+                    combat in the online multiplayer video game League of Legends.        
+                </p>
+                <p>
+                    <span>League</span> is a complex game where
+                    players can fight while moving, where combat effectivness is highly
+                    situational and subject to a large number of rules, and where the
+                    correct strategey is to advance on the enemy when you expect to win,
+                    and to retreat when you expect to lose.  The ability to asses a combat
+                    situation and determine if it is a winning fight or a losing fight is 
+                    thus and essential skill in <span>League</span>.  This is why developing
+                    a calculator for answering this question would be such an interesting 
+                    project.
+                </p>
+                <p>
+                    To start, I will develop the capability to evaluate simple combat
+                    under constrained conditions.  Next I will branch it out to cover 
+                    more of the rules and conditions, but still with strict assumptions
+                    about the combatants' combat performance and decision making, such 
+                    assuming every attack will hit, or that both opponents will waste no 
+                    time in between moves or attacks.  After that, I will add the
+                    functionality to let users arbitrarily modify assumptions like these,
+                    and see how that would influence who wins and by how much. 
+                </p>
+            </section>
+            <section class="project">
+                <h3>Pong App</h3>
+                <p>
+                    The Pong app is a simple multiplayer game that allows people to register, log in,
+                    create/join games, and play multiplayer pong with their arrow keys against another
+                    player.
+                </p>
+                <p>
+                    This project uses A Java server, using the spring web framework, WebSocets
+                    for real time communication,
+                </p>
+            </section>
+        </section>
+        <section class="main">
+            <h2>Education</h2>
+            <h5>Virginia Commonwealth University</h5>
+        </section>
+        <section class="main">
+            <h2>Resumé</h2>
+        </section>
+        <section class="main" id="links-section">
+            <h2>Links</h2>
+            <p>Github</p>
+            <p>LinkedIn</p>
+        </section>
+    </div>
+</body>
+</html>

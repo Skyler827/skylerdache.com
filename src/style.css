@@ -3,24 +3,30 @@
     padding: 0;
     font-family: 'Muli', sans-serif;
 }
-.left-sidebar {
-    height: 100%;
-    width: 200px;
+.site-map {
     background-color: black;
-    color: white;
-    position: absolute;
-    display: inline-block;
 }
+    .site-map div.home-link {
+        display: inline-block;
+    }
+    .site-map a {
+        display: inline-block;
+        color: #66ccff;
+        vertical-align: top;
+        background-color: #000099;
+        margin: 10px;
+        padding: 8px 5px;
+    }
+    .site-map a:hover {
+        background-color: #0033cc;
+        color: #88ccff;
+    }
 .main-content {
     font-size: 1.2em;
-    height: 95%;
-    /* width: auto; */
     margin-left: 200px;
     padding: 15px;
     padding-right: 300px;
     overflow: auto;
-    display: inline-block;
-    position: absolute;
 }
     .main-content p {
         text-indent: 30px;
