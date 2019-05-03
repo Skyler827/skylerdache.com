@@ -17,8 +17,6 @@ const webPagePluginFactory = (pageName) =>
 module.exports = {
     entry: {
         about: './src/about/about.js',
-        blog: './src/blog/blog.js',
-        dog: './src/dog/dog.js',
         home: './src/home/home.js',
         hire: './src/hire/hire.js',
         links: './src/links/links.js',
