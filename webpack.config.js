@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const toTitleCase = require('./src/util').toTitleCase;
 const sitemap = fs.readFileSync(__dirname+"/src/sitemap.html");
 
-const pageNames = ["about", "blog", "dog", "hire", "home", "links", "projects", "resume", "skills"]
+const pageNames = ["about", "hire", "home", "links", "projects", "resume", "skills"]
 const webPagePluginFactory = (pageName) => 
     new HtmlWebPackPlugin({
         title: `Skyler Daché - ${toTitleCase(pageName)}`,
