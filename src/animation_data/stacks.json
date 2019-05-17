@@ -15,22 +15,18 @@
         "name":"Javascript",
         "position": {"x":3,"y":0,"z":0},
         "startTime":0.3
-
     }, {
         "name":"NodeJs",
         "position": {"x":0,"y":1,"z":0},
         "startTime":4.1
-
     }, {
         "name":"Express",
         "position": {"x":1,"y":1,"z":0},
         "startTime":1
-
     }, {
         "name":"Angular",
         "position": {"x":2,"y":1,"z":0},
         "startTime":2.9
-
     }, {
         "name":"SQL",
         "position": {"x":3,"y":1,"z":0},
