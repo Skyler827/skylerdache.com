@@ -16,14 +16,15 @@ const webPagePluginFactory = (pageName) =>
     });
 module.exports = {
     entry: {
-        about: './src/about/about.js',
-        home: './src/home/home.js',
-        hire: './src/hire/hire.js',
-        links: './src/links/links.js',
-        projects: './src/projects/projects.js',
-        resume: './src/resume/resume.js',
-        skills: './src/skills/skills.js'
+        about: './src/about/about.ts',
+        home: './src/home/home.ts',
+        hire: './src/hire/hire.ts',
+        links: './src/links/links.ts',
+        projects: './src/projects/projects.ts',
+        resume: './src/resume/resume.ts',
+        skills: './src/skills/skills.ts'
     },
+    devtool: 'inline-source-map',
     plugins: [new CleanWebpackPlugin(['dist'])].
         concat(pageNames.map(webPagePluginFactory)),
     output: {
@@ -32,8 +33,12 @@ module.exports = {
     },
     module:{
         rules:[
-            {test: /\.css$/, use: ['style-loader', 'css-loader']}
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            {test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/}
         ]
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
     },
     mode: 'development'
 };
