@@ -1,0 +1,47 @@
+{
+    "OSs": [
+        {
+            "name":"Ubuntu"
+        }, {
+            "name":"Fedora"
+        }, {
+            "name":"CentOS"
+        }, {
+            "name":"Windows Server"
+        }
+    ],
+    "system-tools":[
+        "bash",
+        "powershell",
+        "systemd"
+    ],
+    "shell-utilities": [
+        "find",
+        "grep",
+        "curl",
+        "cut",
+        "sed"
+    ],
+    "deploy-tools": [
+        "ansible",
+        "chef",
+        "kubernates"
+    ],
+    "editors":[
+        "VS Code",
+        "vim",
+        "Intellij",
+        "Eclipse"
+    ],
+    "languages": [
+        "Python",
+        "Java",
+        "Javascript/TypeScript"
+    ],
+    "databases": [
+        "MySQL",
+        "PostgreSQL",
+        "MongoDB",
+        "Sqlite"
+    ]
+}

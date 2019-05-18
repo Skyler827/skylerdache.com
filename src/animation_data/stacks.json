@@ -1,11 +1,11 @@
 [
     {
         "name":"Linux",
-        "position": {"x":0,"y":0,"z":0},
+        "position": {"x":-1,"y":0,"z":0},
         "startTime":0
     }, {
         "name":"Java",
-        "position": {"x":1,"y":0,"z":0},
+        "position": {"x":0.5,"y":0,"z":0},
         "startTime":0.9
     }, {
         "name":"Python",
@@ -13,15 +13,15 @@
         "startTime":0.5
     },             {
         "name":"Javascript",
-        "position": {"x":3,"y":0,"z":0},
+        "position": {"x":3.5,"y":0,"z":0},
         "startTime":0.3
     }, {
         "name":"NodeJs",
-        "position": {"x":0,"y":1,"z":0},
+        "position": {"x":-1,"y":1,"z":0},
         "startTime":4.1
     }, {
         "name":"Express",
-        "position": {"x":1,"y":1,"z":0},
+        "position": {"x":0.5,"y":1,"z":0},
         "startTime":1
     }, {
         "name":"Angular",
@@ -29,15 +29,15 @@
         "startTime":2.9
     }, {
         "name":"SQL",
-        "position": {"x":3,"y":1,"z":0},
+        "position": {"x":3.5,"y":1,"z":0},
         "startTime":3.4
     }, {
         "name":"PostgreSQL",
-        "position": {"x":0,"y":2,"z":0},
+        "position": {"x":-1,"y":2,"z":0},
         "startTime":5.1
     }, {
         "name":"MongoDB",
-        "position": {"x":1,"y":2,"z":0},
+        "position": {"x":0.5,"y":2,"z":0},
         "startTime":2.5
     }, {
         "name":"Bash",
@@ -45,15 +45,15 @@
         "startTime":1.7
     }, {
         "name":"HTML",
-        "position": {"x":3,"y":2,"z":0},
+        "position": {"x":3.5,"y":2,"z":0},
         "startTime":0.2
     }, {
         "name":"Spring",
-        "position": {"x":0,"y":3,"z":0},
+        "position": {"x":-1,"y":3,"z":0},
         "startTime":3
     }, {
         "name":"Django",
-        "position": {"x":1,"y":3,"z":0},
+        "position": {"x":0.5,"y":3,"z":0},
         "startTime":2
     }, {
         "name":"jQuery",
@@ -61,7 +61,7 @@
         "startTime":4
     }, {
         "name":"CSS",
-        "position": {"x":3,"y":3,"z":0},
+        "position": {"x":3.5,"y":3,"z":0},
         "startTime":0.5
     }
 ]
