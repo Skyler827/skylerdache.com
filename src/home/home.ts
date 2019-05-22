@@ -4,8 +4,9 @@ import {
     Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
     Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
     NumberKeyframeTrack, Clock, AnimationMixer, LoopPingPong, LoopOnce, AmbientLight, PlaneGeometry, 
-    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, DoubleSide, Vector3
+    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, DoubleSide, Vector3, VectorKeyframeTrack
 } from 'three';
+import { Z_ASCII } from 'zlib';
 const stackPositions: string = require("../animation_data/stackPositions.txt").default;
 const stacks: Array<{
     name:string, position:{x:number,y:number, z:number},
@@ -28,7 +29,7 @@ groundMaterial.color.setHex(0x4a2233);
 const ground = new Mesh(groundGeo, groundMaterial);
 ground.rotateX(-Math.PI/2);
 // ground.translateZ(-10);
-scene.add(ground);
+// scene.add(ground);
 
 // To add a Sky:
 //var skyGeo = new SphereBufferGeometry( 400, 32, 15 );
@@ -39,90 +40,99 @@ scene.add(ground);
 //scene.add( sky );
 
 const t_max = 3;
-const dt = 0.01;
+const dt = 0.1;
 const times = Array(Math.ceil(t_max/dt)).fill(0).map((_,i) => dt*i);
-const dropheight = 10;
-const fallInAnimation = ((nodeName:string, x0:number, y0:number, z0:number): AnimationClip => {
-    const position = (t:number) => new Vector3(
-        x0,
-        y0 + dropheight *(1 - Math.pow(t/t_max,2)),
-        z0
-    );
+const dropheight = 50;
+const secondLineCutoff = 8;
+const secondLineDelay = 1.5;
+function validPosition(v:any) {
+    return (v.x!=null) && (v.y!=null) && (v.z!=null);
+}
+const fallInAnimation = ((nodeName:string, p0:Vector3): AnimationClip => {
+    function position(t:number) {
+        return [p0.x, p0.y -dropheight * Math.pow(t/t_max,2), p0.z];
+    }
     return new AnimationClip("Fall In", -1,[
-        new NumberKeyframeTrack(`${nodeName}.position`, times, times.map(position))
+        new VectorKeyframeTrack(`${nodeName}.position`, times, times.flatMap(position))
     ]);
 });
 
 const lines = stackPositions.split("\n").slice(0,-1);
 // console.log(lines);
-const cubeCoords = lines.reduce((prevPositions: Array<{x:number, z:number}>, newLine, lineNumber) =>
-    prevPositions.concat(newLine.split('')
-    .map((char, colNumber)=>({c:char, x:colNumber, z:lineNumber}))
-    .filter(x => x.c === "#")
-    .map(o => ({x:o.x, z:o.z}))), []);
-console.log(cubeCoords);
+const cubeCoords = lines.flatMap((newLine, lineNumber) =>
+    newLine.split('')
+    .map((char, columnNumber) =>
+    char == '#' ? ({
+        x: columnNumber,
+        z: lineNumber
+    }): null))
+    .filter(o => o);
 
-const cubesAndStartTimes: Array<[Mesh, number]> = cubeCoords.map((coordPair, i) => {
+type p = {x:number, z:number};
+function distance(a:p,b:p) {
+    return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.z-b.z,2));
+}
+const startingPoint:p = {x:6,z:-4};
+cubeCoords.sort((a,b) => {
+    if (a.z < secondLineCutoff && b.z >= secondLineCutoff) return -1
+    else if (a.z >= secondLineCutoff && b.z < secondLineCutoff) return 1;
+    else return distance(a,startingPoint) - distance(b, startingPoint)
+});
+
+const cubesAndStartTimes: Array<[Mesh, number, AnimationMixer]> = cubeCoords.map((coordPair, i) => {
     const c = new Mesh(cubeGeo, greenStuff);
+    const startTime = Math.sqrt(i) + (coordPair.z > secondLineCutoff ? secondLineDelay:0);
     c.name = `box${i}`;
-    c.position.x = coordPair.x;
-    c.position.y = 0;
-    c.position.z = coordPair.z;
-    if (i < 5) {
-        let textGeometry = new TextGeometry("ayyy", {
-            font: font,
-            size: 100,
-            height: 5,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: 10,
-            bevelSize: 8,
-            bevelSegments: 5
-        });
-        const textMat = new MeshStandardMaterial();
-        textMat.color = new Color(0xffffff);
-        textMat.depthWrite = false;
-        textMat.dithering = true;
-        const text = new Mesh(textGeometry, textMat);
-        text.scale.set(0.0015,0.0015,0.0015);
-        text.position.setZ(0.36);
-        text.position.setX(-0.35);
-        text.position.setY(0.1);
-        c.add(text);
+    c.position.set(coordPair.x, dropheight, coordPair.z);
+    if (!validPosition(c.position)) {
+        console.error("invalid initial position");
     }
 
-    return [c, i];
-});
-const mixers = cubesAndStartTimes.map(cubeAndStartTime => {
-    const cube = cubeAndStartTime[0];
-    const startTime = cubeAndStartTime[1];
-    const mixer = new AnimationMixer(cube);
-    const animation = fallInAnimation(cube.name, cube.position.x,cube.position.y, cube.position.z);
+
+    const mixer = new AnimationMixer(c);
+    if (!validPosition(c.position)) {
+        console.error("invalid position @107");
+    }
+    const animation = fallInAnimation(c.name, c.position);
     const animationAction = mixer.clipAction(animation);
     animationAction.setLoop(LoopOnce,1);
     animationAction.clampWhenFinished = true;
     animationAction.play();
     animationAction.startAt(startTime);
-    return mixer;
+    return [c, i, mixer];
 });
-scene.add(...cubesAndStartTimes.map(x=>x[0]));
+
+const cubes = cubesAndStartTimes.map(x=>x[0]);
+const mixers = cubesAndStartTimes.map(x=>x[2]);
+scene.add(...cubes);
 scene.add( ambientLight );
 scene.add( hemisphereLight );
 
-camera.position.set(50,50,30);
+camera.position.set(50,50,50);
 camera.lookAt(50,0,0);
 
 const renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth - 10, window.innerHeight - 100 );
 document.body.appendChild( renderer.domElement );
 const clock = new Clock();
+let nextPrint:number = 0;
+const middleCube = cubesAndStartTimes[Math.floor(cubesAndStartTimes.length/2)][0];
 const animate = function () {
     let dt = clock.getDelta();
     let t = clock.getElapsedTime();
-    mixers.forEach(mixer => {
+    mixers.forEach((mixer, i) => {
         mixer.update(dt);
+        // if (i==0) console.log(mixer.getRoot().position);
     });
     camera.lookAt(50+3*Math.sin(t/2),3*Math.cos(t/2),10);
+    // camera.lookAt(middleCube.position);
+    if (t > nextPrint) {
+        console.log("middle cube position:");
+        console.log(middleCube.position);
+        console.log("camera position:");
+        console.log(camera.position);
+        nextPrint += 10;
+    }
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
 };
