@@ -4,7 +4,8 @@ import {
     Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
     Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
     NumberKeyframeTrack, Clock, AnimationMixer, LoopPingPong, LoopOnce, AmbientLight, PlaneGeometry, 
-    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, DoubleSide, Vector3, VectorKeyframeTrack
+    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, 
+    DoubleSide, Vector3, VectorKeyframeTrack, QuaternionKeyframeTrack, Side
 } from 'three';
 const stackPositions: string = require("../animation_data/stackPositions.txt").default;
 
@@ -18,13 +19,13 @@ const greenStuff = new MeshLambertMaterial();
 const greenHex = 0x11aa22
 greenStuff.color.setHex(greenHex);
 const groundGeo = new PlaneGeometry(150,30);
-const groundMaterial = new MeshLambertMaterial();
+const groundMaterial = new MeshLambertMaterial({side: DoubleSide});
 groundMaterial.color.setHex(0x4a2233);
 const ground = new Mesh(groundGeo, groundMaterial);
 ground.rotateX(-Math.PI/2);
 ground.translateY(-6);
 ground.translateX(68);
-console.log(ground.position);
+ground.translateZ(3);
 
 scene.add(ground);
 
@@ -34,12 +35,12 @@ const times = Array(Math.ceil(t_max/dt)).fill(0).map((_,i) => dt*i);
 const dropheight = 50;
 const secondLineCutoff = 8;
 const secondLineDelay = 12;
-const fallInAnimation = ((nodeName:string, p0:Vector3): AnimationClip => {
+const fallInAnimation = ((p0:Vector3): AnimationClip => {
     function position(t:number) {
         return [p0.x, p0.y -dropheight * Math.pow(t/t_max,2), p0.z];
     }
     return new AnimationClip("Fall In", -1,[
-        new VectorKeyframeTrack(`${nodeName}.position`, times, times.flatMap(position))
+        new VectorKeyframeTrack(`.position`, times, times.flatMap(position))
     ]);
 });
 
@@ -77,7 +78,7 @@ const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.map((coordP
 
 
     const mixer = new AnimationMixer(c);
-    const animation = fallInAnimation(c.name, c.position);
+    const animation = fallInAnimation(c.position);
     const animationAction = mixer.clipAction(animation);
     animationAction.setLoop(LoopOnce,1);
     animationAction.clampWhenFinished = true;
@@ -86,29 +87,76 @@ const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.map((coordP
     return [c, mixer];
 });
 
-const cubes = cubesAndStartTimes.map(x=>x[0]);
-const mixers = cubesAndStartTimes.map(x=>x[1]);
-scene.add(...cubes);
 scene.add( ambientLight );
 scene.add( hemisphereLight );
 
 camera.position.set(50,50,50);
 camera.lookAt(50,0,0);
 
+const cameraMaxTime = 8*Math.PI;
+const cameraDt = 0.1;
+const cameraTimes = Array(Math.ceil(cameraMaxTime/cameraDt)).fill(0).map((_,i) => cameraDt*i);
+const cameraMixer = new AnimationMixer(camera);
+const cameraPan = new AnimationClip("camera_pan",-1, [
+    new VectorKeyframeTrack(".position", [0,3,6,9,12,15.71], [
+        //x, y, z:
+        3,  4, 4.5,
+        3,  4, 4.5,
+        3.5,3, 4.7,
+        50, 9, 30,
+        40, 20, 17,
+        50, 40, 30
+    ]),
+    new QuaternionKeyframeTrack(".quaternion", [0,3,6,9,12,15.71], [
+        //inclination, horizontal, twist, leftover
+        0.35,  0,   0, 0.9,
+        0.15,  0.3, 0, 0.95,
+        -0.05, 0.3, 0, 0.7,
+        -0.1,  0.1, 0, 0.8,
+        -0.2, -0.1, 0, 0.9,
+        -0.45, 0,   0, 0.87
+    ])
+]);
+const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
+    new VectorKeyframeTrack(".position", cameraTimes, cameraTimes.flatMap(t => 
+        [50,50+10*Math.sin(3*t),50]
+    )),
+    new QuaternionKeyframeTrack(".quaternion", cameraTimes, cameraTimes.flatMap(t => 
+        [-0.42+0.05*Math.sign(t),0,0,0.9]
+    ))
+]);
+const cameraPanAction = cameraMixer.clipAction(cameraPan);
+const cameraPanLoopAction = cameraMixer.clipAction(cameraPanLoop);
+cameraPanAction.play();
+cameraPanAction.repetitions = 1;
+cameraMixer.addEventListener('finished', function(e) {
+    const prevClipName = e.action._clip.name;
+    console.log(e);
+    console.log(prevClipName);
+    cameraPanLoopAction.play();
+});
+const cubes = cubesAndStartTimes.map(x=>x[0]);
+const mixers = cubesAndStartTimes.map(x=>x[1]).concat([cameraMixer]);
+scene.add(...cubes);
+
 const renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth - 10, window.innerHeight - 100 );
 document.body.appendChild( renderer.domElement );
 const clock = new Clock();
+let prevTime = 0;
 const animate = function () {
     let dt = clock.getDelta();
     let t = clock.getElapsedTime();
     mixers.forEach((mixer, i) => {
         mixer.update(dt);
     });
-    camera.lookAt(50+3*Math.sin(t/2),3*Math.cos(t/2),10);
-    // ground.rotateZ(dt);
+    if (Math.ceil(3*prevTime) != Math.ceil(3*t)) {
+        // console.log(camera.quaternion);
+    }
+    prevTime = t;
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
 };
 
 animate();
+console.log(camera.quaternion);
