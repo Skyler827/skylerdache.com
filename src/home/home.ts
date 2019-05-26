@@ -4,133 +4,159 @@ import {
     Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
     Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
     NumberKeyframeTrack, Clock, AnimationMixer, LoopPingPong, LoopOnce, AmbientLight, PlaneGeometry, 
-    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, DoubleSide
+    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, 
+    DoubleSide, Vector3, VectorKeyframeTrack, QuaternionKeyframeTrack, Side
 } from 'three';
-let stackPositions: string = require("../animation_data/stackPositions.txt").default;
-let stacks: Array<{
-    name:string, position:{x:number,y:number, z:number},
-    startTime: number
-}> = require('../animation_data/stacks.json');
-let fontJSON = require("../../node_modules/three/examples/fonts/helvetiker_regular.typeface.json");
-let scene = new Scene();
-let camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-var hemisphereLight = new HemisphereLight( 0xffffbb, 0x080820, 1 );
-let ambientLight = new AmbientLight( 0xaaaaaa ); // soft white light
-let font = new Font(fontJSON);
+const stackPositions: string = require("../animation_data/stackPositions.txt").default;
 
-let cubeGeo = new BoxGeometry(1, 0.6, 0.6);
-let greenStuff = new MeshLambertMaterial();
-let greenHex = 0x11aa22
+const scene = new Scene();
+const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const hemisphereLight = new HemisphereLight( 0xffffbb, 0x080820, 1 );
+const ambientLight = new AmbientLight( 0xaaaaaa ); // soft white light
+
+const cubeGeo = new BoxGeometry(0.7, 0.5, 0.7);
+const greenStuff = new MeshLambertMaterial();
+const greenHex = 0x11aa22
 greenStuff.color.setHex(greenHex);
-let groundGeo = new PlaneGeometry(4000,4000);
-let groundMaterial = new MeshLambertMaterial();
+const groundGeo = new PlaneGeometry(150,30);
+const groundMaterial = new MeshLambertMaterial({side: DoubleSide});
 groundMaterial.color.setHex(0x4a2233);
-let ground = new Mesh(groundGeo, groundMaterial);
+const ground = new Mesh(groundGeo, groundMaterial);
 ground.rotateX(-Math.PI/2);
-ground.translateZ(-10);
+ground.translateY(-6);
+ground.translateX(68);
+ground.translateZ(3);
+
 scene.add(ground);
 
-// To add a Sky:
-//var skyGeo = new SphereBufferGeometry( 400, 32, 15 );
-//var skyMat = new MeshBasicMaterial();
-//skyMat.color = new Color(0x3344dd);
-//skyMat.side = DoubleSide;
-//var sky = new Mesh( skyGeo, skyMat );
-//scene.add( sky );
-
-let t_max = 3;
-let dt = 0.01;
-let times = Array(Math.ceil(t_max/dt)).fill(0).map((_,i) => dt*i);
-let dropheight = 10;
-let fallInAnimation = ((nodeName:string, x0:number, y0:number, z0:number): AnimationClip => {
-    let x_of_t = (t:number):number => {
-        return x0;
-    };
-    let y_of_t = (t:number):number => {
-        return y0 + dropheight *(1 - Math.pow(t/t_max,2));
-    };
-    let z_of_t = (t:number):number => {
-        return z0;
-    };
+const t_max = 3;
+const dt = 0.1;
+const times = Array(Math.ceil(t_max/dt)).fill(0).map((_,i) => dt*i);
+const dropheight = 50;
+const secondLineCutoff = 8;
+const secondLineDelay = 12;
+const fallInAnimation = ((p0:Vector3): AnimationClip => {
+    function position(t:number) {
+        return [p0.x, p0.y -dropheight * Math.pow(t/t_max,2), p0.z];
+    }
     return new AnimationClip("Fall In", -1,[
-        new NumberKeyframeTrack(`${nodeName}.position[x]`, times, times.map(x_of_t)),
-        new NumberKeyframeTrack(`${nodeName}.position[y]`, times,times.map(y_of_t)),
-        new NumberKeyframeTrack(`${nodeName}.position[z]`, times, times.map(z_of_t)),
+        new VectorKeyframeTrack(`.position`, times, times.flatMap(position))
     ]);
 });
 
-let lines = stackPositions.split("\n").slice(0,-1);
+const lines = stackPositions.split("\n").slice(0,-1);
 // console.log(lines);
-let cubeCoords = lines.reduce((prevPositions: Array<{x:number, z:number}>, newLine, lineNumber) => 
-    prevPositions.concat(newLine.split('')
-    .map((char, colNumber)=>({c:char, x:colNumber, z:lineNumber}))
-    .filter(x => x.c === "#")
-    .map(o => ({x:o.x, z:o.z}))), []);
-console.log(cubeCoords);
+const cubeCoords = lines.flatMap((newLine, lineNumber) =>
+    newLine.split('')
+    .map((char, columnNumber) =>
+    char == '#' ? ({
+        x: columnNumber,
+        z: lineNumber
+    }): null))
+    .filter(o => o);
 
-let cubesAndStartTimes: Array<[Mesh, number]> = cubeCoords.map((coordPair, i) => {
-    let c = new Mesh(cubeGeo, greenStuff);
-    c.name = `box${i}`;
-    c.position.x = coordPair.x;
-    c.position.y = 0;
-    c.position.z = coordPair.z;
-    if (i < 5) {
-        let textGeometry = new TextGeometry("ayyy", {
-            font: font,
-            size: 100,
-            height: 5,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: 10,
-            bevelSize: 8,
-            bevelSegments: 5
-        });
-        let textMat = new MeshStandardMaterial();
-        textMat.color = new Color(0xffffff);
-        textMat.depthWrite = false;
-        textMat.dithering = true;
-        let text = new Mesh(textGeometry, textMat);
-        text.scale.set(0.0015,0.0015,0.0015);
-        text.position.setZ(0.36);
-        text.position.setX(-0.35);
-        text.position.setY(0.1);
-        c.add(text);
-    }
-
-    return [c, i];
+type p = {x:number, z:number};
+function distance(a:p,b:p) {
+    return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.z-b.z,2));
+}
+const startingPoint:p = {x:6,z:-4};
+function hash(p:p):number {
+    return Math.pow(p.x + p.z, 100) % 1151;
+}
+cubeCoords.sort((a,b) => {
+    if (a.z < secondLineCutoff && b.z >= secondLineCutoff) return -1
+    else if (a.z >= secondLineCutoff && b.z < secondLineCutoff) return 1;
+    else if (a.z >= secondLineCutoff && b.z >= secondLineCutoff) return hash(a) - hash(b);
+    else return distance(a,startingPoint) - distance(b, startingPoint)
 });
-let mixers = cubesAndStartTimes.map(cubeAndStartTime => {
-    let cube = cubeAndStartTime[0];
-    let startTime = cubeAndStartTime[1];
-    let mixer = new AnimationMixer(cube);
-    let animation = fallInAnimation(cube.name, cube.position.x,cube.position.y, cube.position.z);
-    let animationAction = mixer.clipAction(animation);
+
+const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.map((coordPair, i) => {
+    const c = new Mesh(cubeGeo, greenStuff);
+    const startTime = coordPair.z < secondLineCutoff ? Math.sqrt(i) : secondLineDelay+i/70;
+    c.name = `box${i}`;
+    c.position.set(coordPair.x, dropheight, coordPair.z);
+
+
+    const mixer = new AnimationMixer(c);
+    const animation = fallInAnimation(c.position);
+    const animationAction = mixer.clipAction(animation);
     animationAction.setLoop(LoopOnce,1);
     animationAction.clampWhenFinished = true;
-    // animationAction.play();
-    // animationAction.startAt(startTime);
-    return mixer;
+    animationAction.play();
+    animationAction.startAt(startTime);
+    return [c, mixer];
 });
-scene.add(...cubesAndStartTimes.map(x=>x[0]));
+
 scene.add( ambientLight );
 scene.add( hemisphereLight );
 
-camera.position.set(50,50,30);
+camera.position.set(50,50,50);
 camera.lookAt(50,0,0);
 
-let renderer = new WebGLRenderer();
+const cameraMaxTime = 8*Math.PI;
+const cameraDt = 0.1;
+const cameraTimes = Array(Math.ceil(cameraMaxTime/cameraDt)).fill(0).map((_,i) => cameraDt*i);
+const cameraMixer = new AnimationMixer(camera);
+const cameraPan = new AnimationClip("camera_pan",-1, [
+    new VectorKeyframeTrack(".position", [0,3,6,9,12,15.71], [
+        //x, y, z:
+        3,  4, 4.5,
+        3,  4, 4.5,
+        3.5,3, 4.7,
+        50, 9, 30,
+        40, 20, 17,
+        50, 40, 30
+    ]),
+    new QuaternionKeyframeTrack(".quaternion", [0,3,6,9,12,15.71], [
+        //inclination, horizontal, twist, leftover
+        0.35,  0,   0, 0.9,
+        0.15,  0.3, 0, 0.95,
+        -0.05, 0.3, 0, 0.7,
+        -0.1,  0.1, 0, 0.8,
+        -0.2, -0.1, 0, 0.9,
+        -0.45, 0,   0, 0.87
+    ])
+]);
+const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
+    new VectorKeyframeTrack(".position", cameraTimes, cameraTimes.flatMap(t => 
+        [50,50+10*Math.sin(3*t),50]
+    )),
+    new QuaternionKeyframeTrack(".quaternion", cameraTimes, cameraTimes.flatMap(t => 
+        [-0.42+0.05*Math.sign(t),0,0,0.9]
+    ))
+]);
+const cameraPanAction = cameraMixer.clipAction(cameraPan);
+const cameraPanLoopAction = cameraMixer.clipAction(cameraPanLoop);
+cameraPanAction.play();
+cameraPanAction.repetitions = 1;
+cameraMixer.addEventListener('finished', function(e) {
+    const prevClipName = e.action._clip.name;
+    console.log(e);
+    console.log(prevClipName);
+    cameraPanLoopAction.play();
+});
+const cubes = cubesAndStartTimes.map(x=>x[0]);
+const mixers = cubesAndStartTimes.map(x=>x[1]).concat([cameraMixer]);
+scene.add(...cubes);
+
+const renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth - 10, window.innerHeight - 100 );
 document.body.appendChild( renderer.domElement );
-let clock = new Clock();
-let animate = function () {
+const clock = new Clock();
+let prevTime = 0;
+const animate = function () {
     let dt = clock.getDelta();
     let t = clock.getElapsedTime();
-    // mixers.forEach(mixer => {
-    //     mixer.update(dt);
-    // });
-    camera.lookAt(50+10*Math.sin(t/2),0,10);
+    mixers.forEach((mixer, i) => {
+        mixer.update(dt);
+    });
+    if (Math.ceil(3*prevTime) != Math.ceil(3*t)) {
+        // console.log(camera.quaternion);
+    }
+    prevTime = t;
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
 };
 
 animate();
+console.log(camera.quaternion);

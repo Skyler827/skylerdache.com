@@ -36,7 +36,8 @@
     "languages": [
         "Python",
         "Java",
-        "Javascript"
+        "JavaScript",
+        "TypeScript"
     ],
     "databases": [
         "MySQL",
