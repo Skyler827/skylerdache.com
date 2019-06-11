@@ -1,6 +1,6 @@
 import '../style.css';
 import './style.css';
-/*
+
 import {
     Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
     Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
@@ -102,12 +102,13 @@ function quaternionArray(x:number, y:number, z:number):number[] {
         new Vector3(x,y,z).normalize());
     return quat.toArray();
 }
+
 const cameraMaxTime = 8*Math.PI;
 const cameraDt = 0.1;
 const cameraTimes = Array(Math.ceil(cameraMaxTime/cameraDt)).fill(0).map((_,i) => cameraDt*i);
 const cameraMixer = new AnimationMixer(camera);
 const cameraPan = new AnimationClip("camera_pan",-1, [
-    new VectorKeyframeTrack(".position", Array.from(Array(15).keys()).concat([15.71]), [
+    new VectorKeyframeTrack(".position", Array.from(Array(16).keys()).concat([15.708]), [
         //x, y,  z:
         3,   4,  15, //t=0
         3,   4,  7,  //t=1
@@ -124,10 +125,10 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         15,  20, 17, //t=12
         15,  20, 17, //t=13
         55,  50, 50, //t=14
-        55,  50, 50, //t=15
-        55,  50, 50  //t=15.708 (~5pi)
+        60,  50,42.5,//t=15
+        65,  50, 35  //t=15.708 (~5pi)
     ]),
-    new QuaternionKeyframeTrack(".quaternion", Array.from(Array(15).keys()).concat([15.71]),[
+    new QuaternionKeyframeTrack(".quaternion", Array.from(Array(16).keys()).concat([15.708]),[
         //direction camera is
         quaternionArray(0,-0.2,-0.9),   //t=0
         quaternionArray(0,-0.2,-0.9),   //t=1
@@ -144,23 +145,31 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         quaternionArray(0,-0.4,-0.8),   //t=12
         quaternionArray(0,-0.4,-0.8),   //t=13
         quaternionArray(0,-0.4,-0.8),   //t=14
-        quaternionArray(0,-0.4,-0.8),   //t=15
-        quaternionArray(0,-0.4,-0.8)    //t=15.708 (~5pi)
+        quaternionArray(0,-1.2,-1),   //t=15
+        quaternionArray(0,-2,-1.2)    //t=15.708 (~5pi)
     ].flat())
 ]);
+// !-!!!
 const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
     new VectorKeyframeTrack(".position", cameraTimes, cameraTimes.flatMap(t => 
         // x, y, z:
-        [55, 50+3*sin(3*t), 50]
+        [65, 50+3*sin(3*t), 35]
     )),
     new QuaternionKeyframeTrack(".quaternion", cameraTimes, cameraTimes.flatMap(t =>
-        quaternionArray(0,-1-0.05*sin(3*t),-2)
+        quaternionArray(0,-2-0.05*sin(3*t),-1.2)
     ))
 ]);
+// !-!!!!!
 const cameraPanAction = cameraMixer.clipAction(cameraPan);
 const cameraPanLoopAction = cameraMixer.clipAction(cameraPanLoop);
+// !-!!!!!!
+console.log(cameraPan);
+eval('console.log(cameraPan.validate())');
 cameraPanAction.play();
+console.log("done with .play()");
+
 cameraPanAction.repetitions = 1;
+// !-!!!!
 cameraMixer.addEventListener('finished', function(e) {
     // const prevClipName = e.action._clip.name;
     // console.log(e);
@@ -170,7 +179,7 @@ cameraMixer.addEventListener('finished', function(e) {
 const cubes = cubesAndStartTimes.map(x=>x[0]);
 const mixers = cubesAndStartTimes.map(x=>x[1]).concat([cameraMixer]);
 scene.add(...cubes);
-
+// !-!!
 const renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth - 10, window.innerHeight - 100 );
 document.body.appendChild( renderer.domElement );
@@ -188,4 +197,3 @@ const animate = function () {
 };
 
 animate();
-*/
