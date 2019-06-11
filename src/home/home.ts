@@ -1,5 +1,6 @@
 import '../style.css';
 import './style.css';
+/*
 import {
     Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
     Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
@@ -187,3 +188,4 @@ const animate = function () {
 };
 
 animate();
+*/
