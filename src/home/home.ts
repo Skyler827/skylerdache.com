@@ -124,7 +124,7 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         15,  20, 17, //t=13
         55,  50, 50, //t=14
         55,  50, 50, //t=15
-        55,  50, 50  //t=15.71 (~2pi)
+        55,  50, 50  //t=15.708 (~5pi)
     ]),
     new QuaternionKeyframeTrack(".quaternion", Array.from(Array(15).keys()).concat([15.71]),[
         //direction camera is
@@ -144,7 +144,7 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         quaternionArray(0,-0.4,-0.8),   //t=13
         quaternionArray(0,-0.4,-0.8),   //t=14
         quaternionArray(0,-0.4,-0.8),   //t=15
-        quaternionArray(0,-0.4,-0.8)    //t=15.71 (~2pi)
+        quaternionArray(0,-0.4,-0.8)    //t=15.708 (~5pi)
     ].flat())
 ]);
 const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
