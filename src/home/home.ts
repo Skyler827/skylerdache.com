@@ -109,32 +109,33 @@ const cameraTimes = Array(Math.ceil(cameraMaxTime/cameraDt)).fill(0).map((_,i) =
 const cameraMixer = new AnimationMixer(camera);
 const cameraPan = new AnimationClip("camera_pan",-1, [
     new VectorKeyframeTrack(".position", Array.from(Array(16).keys()).concat([15.708]), [
+        //camera position:
         //x, y,  z:
-        3,   4,  15, //t=0
-        3,   4,  7,  //t=1
-        3,   4,  7,  //t=2
-        3,   4,  7,  //t=3
-        3.5, 4,  7,  //t=4
-        3.5, 4,  7,  //t=5
-        3.5, 4,  7,  //t=6
-        3.5, 4,  7,  //t=7
-        20,  9,  9,  //t=8
-        20,  9,  9,  //t=9
-        20,  9,  9,  //t=10
-        15,  20, 17, //t=11
-        15,  20, 17, //t=12
-        15,  20, 17, //t=13
-        55,  50, 50, //t=14
-        60,  50,42.5,//t=15
-        65,  50, 35  //t=15.708 (~5pi)
+        3,   4,  15,  //t=0
+        3,   4,  7,   //t=1
+        3,   4,  7,   //t=2
+        3,   4,  7,   //t=3
+        3.5, 4,  7,   //t=4
+        3.5, 4,  7,   //t=5
+        3.5, 4,  7,   //t=6
+        3.5, 4,  7,   //t=7
+        20,  9,  9,   //t=8
+        20,  9,  9,   //t=9
+        20,  9,  9,   //t=10
+        15,  20, 17,  //t=11
+        15,  20, 17,  //t=12
+        15,  20, 17,  //t=13
+        55,  50, 50,  //t=14
+        60,  50, 42.5,//t=15
+        65,  50, 35   //t=15.708 (~5pi)
     ]),
     new QuaternionKeyframeTrack(".quaternion", Array.from(Array(16).keys()).concat([15.708]),[
-        //direction camera is
-        quaternionArray(0,-0.2,-0.9),   //t=0
-        quaternionArray(0,-0.2,-0.9),   //t=1
-        quaternionArray(0,-0.3,-0.9),   //t=2
-        quaternionArray(0,-0.3,-0.9),   //t=3
-        quaternionArray(0,-0.3,-0.9),   //t=4
+        // direction camera is facing (not normalized)
+        quaternionArray(0,0.7,-0.4),    //t=0
+        quaternionArray(0,0.7,-0.4),    //t=1
+        quaternionArray(0,0.7,-0.4),    //t=2
+        quaternionArray(0,0.7,-0.4),    //t=3
+        quaternionArray(0,0.7,-0.4),    //t=4
         quaternionArray(0.7,-0.1,-0.2), //t=5
         quaternionArray(0.7,-0.1,-0.2), //t=6
         quaternionArray(0.7,-0.1,-0.2), //t=7
@@ -145,8 +146,8 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         quaternionArray(0,-0.4,-0.8),   //t=12
         quaternionArray(0,-0.4,-0.8),   //t=13
         quaternionArray(0,-0.4,-0.8),   //t=14
-        quaternionArray(0,-1.2,-1),   //t=15
-        quaternionArray(0,-2,-1.2)    //t=15.708 (~5pi)
+        quaternionArray(0,-1.2,-1),     //t=15
+        quaternionArray(0,-2,-1.2)      //t=15.708 (~5pi seconds)
     ].flat())
 ]);
 // !-!!!
