@@ -2,11 +2,9 @@ import '../style.css';
 import './style.css';
 
 import {
-    Scene, PerspectiveCamera, PointLight, BoxGeometry, Mesh,
-    Font, TextGeometry, MeshLambertMaterial, WebGLRenderer, AnimationClip, KeyframeTrack,
-    NumberKeyframeTrack, Clock, AnimationMixer, LoopPingPong, LoopOnce, AmbientLight, PlaneGeometry, 
-    MeshPhongMaterial, MeshStandardMaterial, Color, HemisphereLight, MeshBasicMaterial, SphereBufferGeometry, BackSide, 
-    DoubleSide, Vector3, VectorKeyframeTrack, QuaternionKeyframeTrack, Side, Quaternion
+    Scene, PerspectiveCamera, BoxGeometry, Mesh,
+    MeshLambertMaterial, WebGLRenderer, AnimationClip, Clock, AnimationMixer, LoopOnce, AmbientLight, PlaneGeometry, 
+    HemisphereLight, DoubleSide, Vector3, VectorKeyframeTrack, QuaternionKeyframeTrack, Quaternion
 } from 'three';
 
 const sin = Math.sin;
@@ -150,7 +148,6 @@ const cameraPan = new AnimationClip("camera_pan",-1, [
         quaternionArray(0,-2,-1.2)      //t=15.708 (~5pi seconds)
     ].flat())
 ]);
-// !-!!!
 const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
     new VectorKeyframeTrack(".position", cameraTimes, cameraTimes.flatMap(t => 
         // x, y, z:
@@ -160,39 +157,27 @@ const cameraPanLoop = new AnimationClip("camera_pan_loop", -1, [
         quaternionArray(0,-2-0.05*sin(3*t),-1.2)
     ))
 ]);
-// !-!!!!!
 const cameraPanAction = cameraMixer.clipAction(cameraPan);
 const cameraPanLoopAction = cameraMixer.clipAction(cameraPanLoop);
-// !-!!!!!!
-console.log(cameraPan);
-eval('console.log(cameraPan.validate())');
-cameraPanAction.play();
-console.log("done with .play()");
 
+cameraPanAction.play();
 cameraPanAction.repetitions = 1;
-// !-!!!!
-cameraMixer.addEventListener('finished', function(e) {
-    // const prevClipName = e.action._clip.name;
-    // console.log(e);
-    // console.log(prevClipName);
+
+cameraMixer.addEventListener('finished', function() {
     cameraPanLoopAction.play();
 });
 const cubes = cubesAndStartTimes.map(x=>x[0]);
 const mixers = cubesAndStartTimes.map(x=>x[1]).concat([cameraMixer]);
 scene.add(...cubes);
-// !-!!
 const renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth - 10, window.innerHeight - 100 );
 document.body.appendChild( renderer.domElement );
 const clock = new Clock();
-let prevTime = 0;
 const animate = function () {
     let dt = clock.getDelta();
-    let t = clock.getElapsedTime();
-    mixers.forEach((mixer, i) => {
+    mixers.forEach((mixer) => {
         mixer.update(dt);
     });
-    prevTime = t;
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
 };
