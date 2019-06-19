@@ -1,19 +1,30 @@
 {
     "OSs": [
         {
-            "name":"Ubuntu"
+            "name":"Ubuntu",
+            "img":""
         }, {
-            "name":"Fedora"
+            "name":"Fedora",
+            "img":""
         }, {
-            "name":"CentOS"
+            "name":"CentOS",
+            "img":""
         }, {
-            "name":"Windows Server"
+            "name":"Windows Server",
+            "img":""
         }
     ],
     "system-tools":[
-        "bash",
-        "powershell",
-        "systemd"
+        {
+            "name":"bash",
+            "img":""
+        }, {
+            "name":"powershell",
+            "img":""
+        }, {
+            "name":"systemd",
+            "img":""
+        }
     ],
     "shell-utilities": [
         "find",
@@ -21,11 +32,6 @@
         "curl",
         "cut",
         "sed"
-    ],
-    "deploy-tools": [
-        "ansible",
-        "chef",
-        "kubernates"
     ],
     "editors":[
         "VS Code",

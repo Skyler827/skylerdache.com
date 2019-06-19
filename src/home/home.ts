@@ -1,12 +1,47 @@
 import '../style.css';
 import './style.css';
-
 import {
     Scene, PerspectiveCamera, BoxGeometry, Mesh,
     MeshLambertMaterial, WebGLRenderer, AnimationClip, Clock, AnimationMixer, LoopOnce, AmbientLight, PlaneGeometry, 
     HemisphereLight, DoubleSide, Vector3, VectorKeyframeTrack, QuaternionKeyframeTrack, Quaternion
 } from 'three';
-
+const stackNames:{
+    "OSs":{
+        "name":string,
+        "img":string,
+        "versions": number[]
+    }[],
+    "system-tools":{
+        "name":string,
+        "os":string
+    }[],
+    "shell-utilities":{
+        "name":string,
+        "os":string
+    }[],
+    "editors":{
+        "name":string,
+        "img":string
+    }[],
+    "languages":{
+        "name":string,
+        "img":string,
+        "usable-as":string[]
+    }[],
+    "frameworks":{
+        "name":string,
+        "language":string,
+        "img":string
+        "type": "web-backend" | "web-frontend" | "desktop" | "mobile"
+    }[],
+    "databases": {
+        "name":string,
+        "img":string,
+        "architecture":"client only" | "client-server",
+        "model": "relational" | "non-relational",
+        "license": "open source" | "proprietary"
+    }[]
+} = require("../animation_data/stackNames.json");
 const sin = Math.sin;
 const pow = Math.pow;
 const sqrt = Math.sqrt;
@@ -18,12 +53,13 @@ const hemisphereLight = new HemisphereLight( 0xffffbb, 0x080820, 1 );
 const ambientLight = new AmbientLight( 0xaaaaaa ); // soft white light
 
 const cubeGeo = new BoxGeometry(0.7, 0.5, 0.7);
-const greenStuff = new MeshLambertMaterial();
-const greenHex = 0x11aa22
-greenStuff.color.setHex(greenHex);
+const cubeMaterial = new MeshLambertMaterial();
+const darkGreyHex = 0x332255;
+const greyHex = 0x665588;
+cubeMaterial.color.setHex(greyHex);
 const groundGeo = new PlaneGeometry(150,30);
 const groundMaterial = new MeshLambertMaterial({side: DoubleSide});
-groundMaterial.color.setHex(0x4a2233);
+groundMaterial.color.setHex(darkGreyHex);
 const ground = new Mesh(groundGeo, groundMaterial);
 ground.rotateX(-Math.PI/2);
 ground.translateY(-6);
@@ -71,14 +107,15 @@ cubeCoords.sort((a,b) => {
     else if (a.z >= secondLineCutoff && b.z >= secondLineCutoff) return hash(a) - hash(b);
     else return distance(a,startingPoint) - distance(b, startingPoint)
 });
-
-const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.map((coordPair, i) => {
-    const c = new Mesh(cubeGeo, greenStuff);
-    const startTime = coordPair.z < secondLineCutoff ? Math.sqrt(i) : secondLineDelay+i/70;
-    c.name = `box${i}`;
-    c.position.set(coordPair.x, dropheight, coordPair.z);
-
-
+function cubeAndMixer(
+    coordPair:{x:number,z:number},coordIdx:number,height:number,techName:string, techImg:string
+): [Mesh, AnimationMixer] {
+    const c = new Mesh(cubeGeo, cubeMaterial);
+    const startTime = coordPair.z < secondLineCutoff ?
+        Math.sqrt(coordIdx) + height/2:
+        secondLineDelay+coordIdx/70 + height/2;
+    c.name = `box${coordIdx}.${height}`;
+    c.position.set(coordPair.x, dropheight+height, coordPair.z);
     const mixer = new AnimationMixer(c);
     const animation = fallInAnimation(c.position);
     const animationAction = mixer.clipAction(animation);
@@ -87,6 +124,19 @@ const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.map((coordP
     animationAction.play();
     animationAction.startAt(startTime);
     return [c, mixer];
+}
+const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.flatMap((coordPair, i) => {
+    let randomOS = stackNames.OSs[Math.floor(Math.random()*stackNames.OSs.length)];
+    let randomLang = stackNames.languages[Math.floor(Math.random()*stackNames.languages.length)];
+    let additionalTechs = Math.floor(Math.random()*4);
+    let techStack = [randomOS,randomLang];
+    for (let i=0; i<additionalTechs; i++) {
+        const snk = Object.keys(stackNames);
+        const randomType = snk[Math.random()*snk.length]
+        const randomTech = stackNames[randomType[Math.random()*randomType.length]];
+        techStack.push(randomTech);
+    }
+    return Array.from({length: 3}, (_, k) => k).map(v => cubeAndMixer(coordPair,i,v/2,"",""));
 });
 
 scene.add( ambientLight );
