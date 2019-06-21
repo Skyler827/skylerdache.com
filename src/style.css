@@ -26,16 +26,15 @@
         
     }
 .main-content {
+    max-width: 1400px;
+    margin: 0 auto;
     font-size: 1.2em;
-    margin-left: 200px;
     padding: 15px;
-    padding-right: 300px;
     overflow: auto;
 }
     .main-content p {
         text-indent: 30px;
         margin: 10px 0;
-        text-align: justify;
     }
     .main-content section {
         padding: 8px;

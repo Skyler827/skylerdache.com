@@ -126,16 +126,22 @@ function cubeAndMixer(
     return [c, mixer];
 }
 const cubesAndStartTimes: Array<[Mesh, AnimationMixer]> = cubeCoords.flatMap((coordPair, i) => {
-    let randomOS = stackNames.OSs[Math.floor(Math.random()*stackNames.OSs.length)];
-    let randomLang = stackNames.languages[Math.floor(Math.random()*stackNames.languages.length)];
-    let additionalTechs = Math.floor(Math.random()*4);
-    let techStack = [randomOS,randomLang];
-    for (let i=0; i<additionalTechs; i++) {
-        const snk = Object.keys(stackNames);
-        const randomType = snk[Math.random()*snk.length]
-        const randomTech = stackNames[randomType[Math.random()*randomType.length]];
-        techStack.push(randomTech);
-    }
+    // const randomOS = stackNames.OSs[Math.floor(Math.random()*stackNames.OSs.length)];
+    // const randomLang = stackNames.languages[Math.floor(Math.random()*stackNames.languages.length)];
+    // const additionalTechs = Math.floor(Math.random()*4);
+    // const techStack = [randomOS,randomLang];
+    // const snk = Object.keys(stackNames);
+    // for (let i=0; i<additionalTechs; i++) {
+    //     const randomTypeName = snk[Math.floor(Math.random()*snk.length)];
+    //     const randomTechs = stackNames[randomTypeName];
+    //     const randomTech = randomTechs[Math.round(Math.random()*randomTechs.length)]
+    //     if (!randomTech) {
+    //         console.log(randomTypeName);
+    //         console.log(randomTechs);
+    //         console.log(randomTech);
+    //     }
+    //     techStack.push(randomTech);
+    // }
     return Array.from({length: 3}, (_, k) => k).map(v => cubeAndMixer(coordPair,i,v/2,"",""));
 });
 

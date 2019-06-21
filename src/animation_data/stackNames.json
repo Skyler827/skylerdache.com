@@ -27,28 +27,66 @@
         }
     ],
     "shell-utilities": [
-        "find",
-        "grep",
-        "curl",
-        "cut",
-        "sed"
+        {
+            "name":"find",
+            "img":""
+        }, {
+            "name":"grep",
+            "img":""
+        }, {
+            "name":"curl",
+            "img":""
+        }, {
+            "name":"cut",
+            "img":""
+        }, {
+            "name":"sed",
+            "img":""
+        }
     ],
     "editors":[
-        "VS Code",
-        "vim",
-        "Intellij",
-        "Eclipse"
+        {
+            "name":"VS Code",
+            "img":""
+        }, {
+            "name":"vim",
+            "img":""
+        }, {
+            "name":"Intellij",
+            "img":""
+        }, {
+            "name":"Eclipse",
+            "img":""
+        }
     ],
     "languages": [
-        "Python",
-        "Java",
-        "JavaScript",
-        "TypeScript"
+        {
+            "name":"Python",
+            "img":""
+        }, {
+            "name":"Java",
+            "img":""
+        }, {
+            "name":"JavaScript",
+            "img":""
+        }, {
+            "name":"TypeScript",
+            "img":""
+        }
     ],
     "databases": [
-        "MySQL",
-        "PostgreSQL",
-        "MongoDB",
-        "Sqlite"
+        {
+            "name":"MySQL",
+            "img":""
+        }, {
+            "name":"PostgreSQL",
+            "img":""
+        }, {
+            "name":"MongoDB",
+            "img":""
+        }, {
+            "name":"Sqlite",
+            "img":""
+        }
     ]
 }

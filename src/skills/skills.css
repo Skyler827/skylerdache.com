@@ -1,4 +1,47 @@
+section.skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+@media only screen and (max-width: 1200px) {
+    section.skills {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media only screen and (max-width: 800px) {
+    section.skills {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+section.main h2 {
+    text-align: center;
+}
 div.skill {
-    display: inline-block;
-    background-color:orange;
+    margin: 5px;
+    padding: 5px;
+}
+div.skill.python {
+    background-color: orange;
+}
+div.skill.javascript {
+    background-color: yellow;
+}
+div.skill.typescript {
+    background: repeating-linear-gradient(
+        135deg,
+        #ffee00,
+        #ffee00 50px,
+        #8892d3 60px,
+        #8892d3 100px,
+        #ffee00 110px
+
+    );
+}
+div.skill.java {
+    background-color: blue;
+    color: #e0e0e0;
+}
+div.skill.linux {
+    background-color: #202020;
+    color: greenyellow;
 }
