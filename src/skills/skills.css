@@ -20,6 +20,16 @@ div.skill {
     margin: 5px;
     padding: 5px;
 }
+div.skill svg {
+    width: 50px;
+    height: 50px;
+}
+div.skill h3 {
+    display: inline;
+    vertical-align: top;
+    padding-top: 15px;
+}
+
 div.skill.python {
     background-color: orange;
 }
@@ -29,17 +39,17 @@ div.skill.javascript {
 div.skill.typescript {
     background: repeating-linear-gradient(
         135deg,
-        #ffee00,
-        #ffee00 50px,
-        #8892d3 60px,
-        #8892d3 100px,
-        #ffee00 110px
+        #fff67a,
+        #fff67a 50px,
+        #a8afdd 60px,
+        #a8afdd 100px,
+        #fff67a 110px
 
     );
 }
 div.skill.java {
-    background-color: blue;
-    color: #e0e0e0;
+    background-color: rgb(183, 183, 255);
+    color: #000000;
 }
 div.skill.linux {
     background-color: #202020;
