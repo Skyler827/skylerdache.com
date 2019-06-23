@@ -35,6 +35,7 @@ module.exports = {
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
             {test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/},
             {test: /\.txt$/i, use: 'raw-loader'},
+            {test: /\.(png|svg|jpg|gif)$/, use: 'file-loader'}
         ]
     },
     resolve: {
