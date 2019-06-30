@@ -20,8 +20,7 @@ div.skill {
     margin: 5px;
     padding: 5px;
 }
-div.skill svg {
-    width: 50px;
+div.skill svg, div.skill img {
     height: 50px;
 }
 div.skill h3 {
@@ -34,7 +33,7 @@ div.skill.python {
     background-color: orange;
 }
 div.skill.javascript {
-    background-color: yellow;
+    background-color: #f0db4f;
 }
 div.skill.typescript {
     background: repeating-linear-gradient(
