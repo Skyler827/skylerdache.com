@@ -16,15 +16,31 @@
         background-color: #000099;
         margin: 10px;
         padding: 8px 5px;
+        position: relative;
     }
     .site-map a:hover {
         background-color: #0033cc;
         color: #88ccff;
     }
-    .site-map div.contact {
-        display: inline-block;
-        
+    .site-map a div.dropdown {
+        position: absolute;
+        top: 50px;
+        visibility: hidden;
+        background-color: rgba(20,20,80,50);
     }
+    .site-map a div.dropdown.skills {
+        width: 150px;
+    }
+    .site-map a div.dropdown.projects {
+        width: 250px;
+    }
+        .site-map a div.dropdown p {
+            margin: 10px;
+        }
+        .site-map a div.dropdown p:hover {
+            background-color:rgba(30,30,120,50)
+        }
+
 .main-content {
     max-width: 1400px;
     margin: 0 auto;

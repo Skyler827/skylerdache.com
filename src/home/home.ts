@@ -1,5 +1,6 @@
 import '../style.css';
 import './style.css';
+import '../sitemap';
 import {
     Scene, PerspectiveCamera, BoxGeometry, Mesh,
     MeshLambertMaterial, WebGLRenderer, AnimationClip, Clock, AnimationMixer, LoopOnce, AmbientLight, PlaneGeometry, 
