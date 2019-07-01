@@ -1,36 +1,27 @@
-//set up two event listeners
-const links:NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".site-map a");
+
+const links:NodeListOf<HTMLDivElement> = document.querySelectorAll(".site-map div.link-container");
 console.log(links);
-links.forEach(a => {
-    let dropdown:HTMLDivElement = a.querySelector("div.dropdown");
+links.forEach(linkContainer => {
+    let dropdown:HTMLDivElement = linkContainer.querySelector("div.dropdown");
     if (!dropdown) return;
-    a.addEventListener("pointerenter", function(ev) {
+    linkContainer.addEventListener("pointerenter", function(ev) {
         dropdown.style.visibility = "visible";
         links.forEach(a2 => {
-            if (a != a2) {
+            if (linkContainer != a2) {
                 let dropdown2:HTMLDivElement = a2.querySelector("div.dropdown");
                 dropdown2 ? dropdown2.style.visibility = "hidden":null;
             }
         });
     });
-    a.addEventListener("pointerleave", function(ev) {
-        let clear = setTimeout(()=>{
+    linkContainer.addEventListener("pointerleave", function(ev) {
+        let hide = setTimeout(()=>{
             dropdown.style.visibility = "hidden";
         }, 200);
         dropdown.addEventListener("pointerenter", function(ev) {
-            clearTimeout(clear);
+            clearTimeout(hide);
         });
     });
     dropdown.addEventListener("pointerleave", function(ev) {
         dropdown.style.visibility = "hidden";
-    });
-    dropdown.childNodes.forEach(e => {
-        if (e instanceof HTMLParagraphElement) {
-            e.addEventListener("click", function(ev) {
-                console.log(ev);
-                console.log(e.innerText);
-                ev.preventDefault();
-            });
-        }
     });
 });

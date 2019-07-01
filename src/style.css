@@ -9,6 +9,9 @@
     .site-map div.home-link {
         display: inline-block;
     }
+    .site-map div.link-container {
+        display: inline-block;
+    }
     .site-map a {
         display: inline-block;
         color: #66ccff;
@@ -22,22 +25,23 @@
         background-color: #0033cc;
         color: #88ccff;
     }
-    .site-map a div.dropdown {
+    .site-map div.dropdown {
         position: absolute;
         top: 50px;
         visibility: hidden;
         background-color: rgba(20,20,80,50);
     }
-    .site-map a div.dropdown.skills {
+    .site-map div.dropdown.skills {
         width: 150px;
     }
-    .site-map a div.dropdown.projects {
+    .site-map div.dropdown.projects {
         width: 250px;
     }
-        .site-map a div.dropdown p {
+        .site-map div.dropdown a {
             margin: 10px;
+            display: block;
         }
-        .site-map a div.dropdown p:hover {
+        .site-map div.dropdown a:hover {
             background-color:rgba(30,30,120,50)
         }
 

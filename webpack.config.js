@@ -28,19 +28,22 @@ const webPagePluginFactory = (pageName, directory) =>
         filename: pageName=="home"?
             "index.html":
             directory?
-                path.join(directory,pageName+".html"):
-                pageName+".html",
+                path.join(directory,pageName,"index.html"):
+                path.join(pageName,"index.html"),
         chunks: [pageName]
     });
 module.exports = {
-    entry: {
-        home: './src/home/home.ts',
-        hire: './src/hire/hire.ts',
-        links: './src/links/links.ts',
-        projects: './src/projects/projects.ts',
-        resume: './src/resume/resume.ts',
-        skills: './src/skills/skills.ts'
-    },
+    entry: Object.assign({},
+        pageNames.reduce((prev, pageName) =>Object.assign(prev, JSON.parse(
+            `{"${pageName}":"./src/${pageName}/${pageName}.ts"}`
+        )), {}),
+        skills.reduce((prev, skillName) => Object.assign(prev, JSON.parse(
+            `{"${skillName}":"./src/skills/${skillName}/${skillName}.ts"}`
+        )), {}),
+        projects.reduce((prev, projName) => Object.assign(prev, JSON.parse(
+            `{"${projName}":"./src/projects/${projName}/${projName}.ts"}`
+        )), {})
+    ),
     devtool: 'inline-source-map',
     plugins: [new CleanWebpackPlugin(['dist'])]
         .concat(pageNames.map(s => webPagePluginFactory(s)))
