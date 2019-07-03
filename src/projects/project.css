@@ -1,0 +1,7 @@
+#column-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+img.screenshot {
+    width: 800px;
+}

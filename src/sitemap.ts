@@ -1,6 +1,5 @@
 
 const links:NodeListOf<HTMLDivElement> = document.querySelectorAll(".site-map div.link-container");
-console.log(links);
 links.forEach(linkContainer => {
     let dropdown:HTMLDivElement = linkContainer.querySelector("div.dropdown");
     if (!dropdown) return;

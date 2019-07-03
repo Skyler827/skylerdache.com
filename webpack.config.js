@@ -58,7 +58,13 @@ module.exports = {
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
             {test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/},
             {test: /\.txt$/i, use: 'raw-loader'},
-            {test: /\.(png|svg|jpg|gif)$/, use: 'file-loader'}
+            {
+                test: /\.(png|svg|jpg|gif)$/, 
+                use: ["file-loader", {
+                    loader: 'image-webpack-loader',
+                    options: {disable: true}
+                }]
+            }
         ]
     },
     resolve: {
