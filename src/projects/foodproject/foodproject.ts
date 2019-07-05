@@ -3,13 +3,11 @@ import '../../sitemap';
 import '../project.css';
 import './foodproject.css';
 import load_images from '../load_images';
-let login = require('../../../img/foodproject/login.png');
-let diningRoom = require('../../../img/foodproject/dining-room.png');
-let order = require('../../../img/foodproject/order.png');
-
 let images = {
-    "login":login,
-    "dining-room":diningRoom,
-    "order":order
+    "#login": require('../../../img/foodproject/login.png'),
+    "#dining-room": require('../../../img/foodproject/dining-room.png'),
+    "#order": require('../../../img/foodproject/order.png'),
+    ".icon-link": require('../../../img/link.svg'),
+    ".icon-source": require('../../../img/source.svg')
 };
 load_images(images);

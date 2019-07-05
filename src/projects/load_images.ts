@@ -1,10 +1,14 @@
-export default function load_images(imageNames: {[s:string]:string}) {
-    for (let imageName in imageNames) {
-        let img = <HTMLImageElement>document.querySelector(`#${imageName}`);
+/**
+ * Loads images
+ * @param imageMap a map from the HTML selector to the filename of the image
+ */
+export default function load_images(imageMap: {[s:string]:string}) {
+    for (let imageSelector in imageMap) {
+        let img = <HTMLImageElement>document.querySelector(`${imageSelector}`);
         if (img) {
-            img.src = "/"+imageNames[imageName];
+            img.src = "/"+imageMap[imageSelector];
         } else {
-            console.log(`problem: no such element "document.querySelector('#${imageName}')".`);
+            console.warn(`problem: no such element "document.querySelector('#${imageSelector}')".`);
         }
     }    
 }

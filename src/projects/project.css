@@ -12,3 +12,6 @@ img.screenshot {
     width: 800px;
     margin: 10px;
 }
+.demo-link, .source {
+    margin: 10px;
+}
