@@ -2,6 +2,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+.description ul {
+    margin: 10px;
+}
+div.images {
+    background-color: #777777;
+}
 img.screenshot {
     width: 800px;
+    margin: 10px;
 }
