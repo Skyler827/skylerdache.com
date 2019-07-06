@@ -11,61 +11,30 @@
 <body>
     <%= htmlWebpackPlugin.options.sitemap %>
     <div class="main-content">
-        <h2>Projects</h2>
-        <section class="project">
-            <h3>Food Ordering System</h3>
-            <p>
-                This project recreates the food ordering point of sale system at the
-                restaraunt I have worked at.  It allows servers to view and enter orders
-                for food and drinks, keeps track of what has been ordered and the supply of
-                ingredients required to make items, it displays to line cooks what ingredients
-                need to be combined to make ordered food, and allows managers to void/comp orders,
-                track sales, profits, losses, and order/payment activity.
-            </p>
-            <p>
-                The Food Ordering System is built with all Javascript/Typescript, 
-            </p>
-        </section>
-        <section class="project">
-            <h3>League of Legends Calculator</h3>
-            <p>
-                I hope to develop a simple calculator for predicting the outcome of 
-                combat in the online multiplayer video game League of Legends.        
-            </p>
-            <p>
-                <span>League</span> is a complex game where
-                players can fight while moving, where combat effectivness is highly
-                situational and subject to a large number of rules, and where the
-                correct strategey is to advance on the enemy when you expect to win,
-                and to retreat when you expect to lose.  The ability to asses a combat
-                situation and determine if it is a winning fight or a losing fight is 
-                thus and essential skill in <span>League</span>.  This is why developing
-                a calculator for answering this question would be such an interesting 
-                project.
-            </p>
-            <p>
-                To start, I will develop the capability to evaluate simple combat
-                under constrained conditions.  Next I will branch it out to cover 
-                more of the rules and conditions, but still with strict assumptions
-                about the combatants' combat performance and decision making, such 
-                assuming every attack will hit, or that both opponents will waste no 
-                time in between moves or attacks.  After that, I will add the
-                functionality to let users arbitrarily modify assumptions like these,
-                and see how that would influence who wins and by how much. 
-            </p>
-        </section>
-        <section class="project">
-            <h3>Pong App</h3>
-            <p>
-                The Pong app is a simple multiplayer game that allows people to register, log in,
-                create/join games, and play multiplayer pong with their arrow keys against another
-                player.
-            </p>
-            <p>
-                This project uses A Java server, using the spring web framework, WebSocets
-                for real time communication,
-            </p>
-        </section>
+        <h2 class="title">Projects</h2>
+        <div class="projects">
+            <div class="project fos">
+                <img class="screenshot-fos screenshot">
+                <a href="/projects/foodproject/">
+                    <h3 class="fos-title title">Food Ordering System</h3>
+                    <p>An independent re-implementation of a restaraunt point of sale system.</p>
+                </a>
+            </div>
+            <div class="project lol-calc">
+                <img class="screenshot-lol-calc screenshot">
+                <a href="/projects/lol-calculator/">
+                    <h3 class="lol-calc-title title">League of Legends Calculator</h3>
+                    <p>A simple calculator for predicting who would win in a fight between two given Leage of Legends characters, with given levels and items.</p>
+                </a>
+            </div>
+            <div class="project pongapp">
+                <img class="pongapp-screenshot screenshot">
+                <a href="/projects/pongapp/">
+                    <h3 class="pongapp-title title">Pong App</h3>
+                    <p>A simple web based 2 player pong game.</p>
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

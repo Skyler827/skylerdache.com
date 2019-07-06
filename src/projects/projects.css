@@ -1,0 +1,17 @@
+.projects {
+    display: flex;
+}
+img.screenshot {
+    width: 100%;
+}
+.project {
+    background-color: lightblue;
+    margin: 10px;
+    padding: 10px;
+}
+.project a {
+    text-decoration: none;
+}
+.project a:hover {
+    text-decoration: underline;
+}
