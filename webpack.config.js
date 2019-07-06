@@ -10,10 +10,6 @@ const pageNames = fs
     .filter(d => d.isDirectory())
     .filter(d => d.name !== "animation_data")
     .map(d => d.name);
-const skills = fs
-    .readdirSync(path.join(__dirname,"src","skills"), {withFileTypes:true})
-    .filter(d => d.isDirectory())
-    .map(d => d.name);
 const projects = fs
     .readdirSync(path.join(__dirname,"src","projects"), {withFileTypes:true})
     .filter(d => d.isDirectory())
@@ -37,9 +33,6 @@ module.exports = {
         pageNames.reduce((prev, pageName) =>Object.assign(prev, JSON.parse(
             `{"${pageName}":"./src/${pageName}/${pageName}.ts"}`
         )), {}),
-        skills.reduce((prev, skillName) => Object.assign(prev, JSON.parse(
-            `{"${skillName}":"./src/skills/${skillName}/${skillName}.ts"}`
-        )), {}),
         projects.reduce((prev, projName) => Object.assign(prev, JSON.parse(
             `{"${projName}":"./src/projects/${projName}/${projName}.ts"}`
         )), {})
@@ -47,7 +40,6 @@ module.exports = {
     devtool: 'inline-source-map',
     plugins: [new CleanWebpackPlugin(['dist'])]
         .concat(pageNames.map(s => webPagePluginFactory(s)))
-        .concat(skills.map(s => webPagePluginFactory(s, 'skills')))
         .concat(projects.map(s => webPagePluginFactory(s, 'projects'))),
     output: {
         filename: '[name].bundle.js',
