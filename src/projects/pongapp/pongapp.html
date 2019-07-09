@@ -23,23 +23,30 @@
                     paddles, controlled vis the up and down arrow keys.
                 </p>
                 <p>
-                    I wrote this web app because the game of League requires constantly knowing if you can win a fight against a given opponent, because if you can win, you should pursue, and if you can't win, you should try to escape.
-                </p>
-                <p>
-                    This app doesn't solve the general problem of optimal general purpose play (yet), but it does the following:
+                    I wrote this app to practice using websockets, 3D animation with three.js, and because I thought it would help me appreciate the complexity that goes into even simple games.
                 </p>
                 <h3>Features</h3>
                 <ul>
-                    <li>On app startup, fetch data from offical Riot game servers on all characters, items, and combat statistics</li>
-                    <li>Record champion data in a SQLite database for easy querying later</li>
-                    <li>Present a responsive base interface</li>
-                    <li>Allow selecting opposing champions</li>
-                    <li>Allow selecting champion levels</li>
-                    <li>Allow selecting up to 6 items for each champion</li>
-                    <li>Calculates the result of a fight consisting of basic attacks</li>
-                    <li>Incorporates champion health, attack damage, and armor</li>
-                    <li>Displays a line graph of charachter's health over time</li>
-                    <li>Displays the name of the winning charachter</li>
+                    <li>Users may register accounts and login</li>
+                    <li>User accounts contain a username, email address, created/updated dates and times, and a password</li>
+                    <li>When a user logs in, they may start a pong game lobby</li>
+                    <li>When a second user connects, the can join the lobby and play begins</li>
+                    <li>Pong is displayed in a 3D environment</li>
+                    <li>Players can control their pong paddle with the up and down arrow keys</li>
+                    <li>Background music can be played or stopped independently by either player</li>
+                    <li>The ball starts slow but goes faster as play continues</li>
+                    <li>Each player starts with ten points and play ends when either player goes down to 0 points</li>
+                </ul>
+                <h3>Technical details</h3>
+                <ul>
+                    <li>Writen in Java</li>
+                    <li>Uses the Spring web framework with Spring Boot</li>
+                    <li>Uses JPA to synchronize database state</li>
+                    <li>Uses MariaDB (based on MySQL) to store data</li>
+                    <li>Uses bcrypt to salt and hash account passwords</li>
+                    <li>Uses websockets to synchronize game state between browser and server</li>
+                    <li>Uses angular on the browser</li>
+                    <li>Uses three.js to create 3D game envrionment</li>
                 </ul>
             </div>
             <div class="images">

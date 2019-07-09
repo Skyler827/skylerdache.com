@@ -23,6 +23,12 @@ div.skill {
 div.skill svg, div.skill img {
     height: 50px;
 }
+    div.skill.nginx svg {
+        height: 40px;
+    }
+    div.skill.nginx p {
+        margin-top:0;
+    }
 div.skill h3 {
     display: inline;
     vertical-align: top;

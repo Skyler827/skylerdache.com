@@ -15,3 +15,6 @@ img.screenshot {
 .demo-link, .source {
     margin: 10px;
 }
+a.demo-link:hover, a.source:hover {
+    background-color: aliceblue;
+}

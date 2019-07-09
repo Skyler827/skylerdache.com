@@ -32,15 +32,26 @@
                 <h3>Features</h3>
                 <ul>
                     <li>On app startup, fetch data from offical Riot game servers on all characters, items, and combat statistics</li>
-                    <li>Record champion data in a SQLite database for easy querying later</li>
+                    <li>Record champion data for easy querying later</li>
                     <li>Present a responsive base interface</li>
                     <li>Allow selecting opposing champions</li>
                     <li>Allow selecting champion levels</li>
                     <li>Allow selecting up to 6 items for each champion</li>
                     <li>Calculates the result of a fight consisting of basic attacks</li>
                     <li>Incorporates champion health, attack damage, and armor</li>
-                    <li>Displays a line graph of charachter's health over time</li>
-                    <li>Displays the name of the winning charachter</li>
+                    <li>Displays a line graph of character's health over time</li>
+                    <li>Displays the name of the winning character</li>
+                </ul>
+                <h3>Technical Details</h3>
+                <ul>
+                    <li>Written in Python</li>
+                    <li>Currently set up to run within the Django framework, but currently does not use any Django features</li>
+                    <li>On previous iterations, used the Flask web framework</li>
+                    <li>Uses SQLite to store basic character data</li>
+                    <li>Uses jQuery for DOM manipulation in the browser</li>
+                    <li>Images, after being queried during server startup, are stored on disk</li>
+                    <li>Runs under gunicorn as a systemd service on Ubuntu Linux</li>
+                    <li>Deployed behind Nginx reverse proxy, which serves static data as needed</li>
                 </ul>
             </div>
             <div class="images">
